@@ -22,16 +22,42 @@ export default {
   name: "Switcher",
   props: {
     title: String,
-    options: Array
+    options: Array,
+  },
+  data() {
+    return {
+      choosedFilterOption: "title",
+      choosedSortingOption: "date",
+    };
   },
   methods: {
+    getChoosenFilterOption() {
+      this.$emit("getSearchOption", this.choosedFilterOption);
+    },
+
+    getChoosenSortingOption() {
+      this.$emit("sortMovies", this.choosedSortingOption);
+    },
+
     makeActive(index) {
-      this.options.forEach(item => {
+      this.options.forEach((item) => {
         item.checked === true ? (item.checked = false) : "";
       });
       this.options[index].checked = true;
-    }
-  }
+      let title = this.options[index].title;
+      if (title === "title" || title === "genre") {
+        this.choosedFilterOption = this.options[index].title;
+        this.getChoosenFilterOption();
+      } else {
+        this.choosedSortingOption = this.options[index].title;
+        this.getChoosenSortingOption();
+      }
+    },
+  },
+  created() {
+    this.getChoosenFilterOption();
+    this.getChoosenSortingOption();
+  },
 };
 </script>
 
@@ -40,7 +66,7 @@ export default {
   &__title {
     display: inline-block;
     text-transform: uppercase;
-    font-weight: 400;
+    font-weight: 500;
   }
 
   &__tabs {
@@ -49,7 +75,7 @@ export default {
     background: rgba(66, 66, 66, 0.8);
     border: 0;
     border-radius: 3px;
-    font-weight: 300;
+    font-weight: 400;
   }
 
   &__tab {

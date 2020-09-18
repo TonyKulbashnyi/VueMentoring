@@ -10,8 +10,8 @@ export default {
   methods: {
     onClick() {
       this.$emit("click");
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -23,8 +23,11 @@ export default {
     background-color: #f65261;
     color: white;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 1.125rem;
     padding: 10px 20px;
+    text-transform: uppercase;
+    font-weight: 500;
+    outline: none;
   }
 }
 </style>

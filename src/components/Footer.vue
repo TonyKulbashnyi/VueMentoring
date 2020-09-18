@@ -1,14 +1,16 @@
 <template>
   <footer class="footer">
     <div class="footer__content">
-      <slot></slot>
+      <router-link to="/">
+        <img src="../assets/logo.png" alt="logo" class="header__logo" />
+      </router-link>
     </div>
   </footer>
 </template>
 
 <script>
 export default {
-  name: "Footer"
+  name: "Footer",
 };
 </script>
 
