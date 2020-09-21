@@ -1,14 +1,20 @@
 <template>
-  <input class="search__field" :placeholder="placeholder" :value="value" />
+  <input @change="getText" class="search__field" v-model="inputValue" />
 </template>
 
 <script>
 export default {
   name: "SearchField",
-  props: {
-    value: String,
-    placeholder: String
-  }
+  data() {
+    return {
+      inputValue: "",
+    };
+  },
+  methods: {
+    getText() {
+      this.$emit("getValue", this.inputValue);
+    },
+  },
 };
 </script>
 
@@ -18,9 +24,9 @@ export default {
   border-radius: 3px;
   background: rgba(66, 66, 66, 0.8);
   color: white;
-  cursor: pointer;
-  font-size: 0.875rem;
-  padding: 10px 20px;
+  padding: 20px;
+  font-size: 1rem;
+  outline: none;
 
   &::placeholder {
     color: white;

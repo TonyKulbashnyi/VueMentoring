@@ -1,10 +1,16 @@
 <template>
   <section class="control">
-    <div class="contol__info">
-      <span class="control__info_count">{{ count }}</span>
-      <span class="control__info_val">{{ info }}</span>
+    <div v-if="isHome" class="wrapper control__wrapper">
+      <div class="contol__info">
+        {{ countString }}
+      </div>
+      <Switcher v-on="$listeners" :title="title" :options="options" />
     </div>
-    <Switcher :title="title" :options="options" />
+    <div v-if="isMovie" class="wrapper control__wrapper">
+      <div class="contol__info control__info_bold">
+        {{ getGenreList }}
+      </div>
+    </div>
   </section>
 </template>
 
@@ -16,32 +22,83 @@ export default {
   components: { Switcher },
   props: {
     count: Number,
-    title: String,
-    options: Array
+    home: Boolean,
+    movie: Boolean,
+    movieItem: Object,
   },
   data: function() {
     return {
-      info: "movies found"
+      info: "movies found",
+      title: "sort by",
+      genreListStart: "Films by ",
+      genreListEnd: " genre",
+      options: [
+        {
+          id: 0,
+          title: "release date",
+          checked: true,
+        },
+        {
+          id: 1,
+          title: "rating",
+          checked: false,
+        },
+      ],
     };
-  }
+  },
+  methods: {
+    // getMovie() {
+    //   console.log(this.movieItem);
+    // },
+  },
+  computed: {
+    countString() {
+      let length = this.count;
+      if (length === 0) return "";
+      return `${length} movie${length > 1 ? "s" : ""} found`;
+    },
+
+    isHome() {
+      return this.home;
+    },
+
+    isMovie() {
+      return this.movie;
+    },
+    // get,
+    getGenreList() {
+      return this.genreListStart + this.movieItem.genre[0] + this.genreListEnd;
+    },
+  },
+  // created() {
+  //   this.getMovie();
+  // },
 };
 </script>
 
 <style scoped lang="scss">
 .control {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   background: #555;
   padding: 15px;
   overflow: hidden;
   margin: 0 auto;
   color: white;
 
+  &__wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   &__info {
     &_count {
       display: inline-block;
       padding-right: 5px;
+    }
+
+    &_bold {
+      font-weight: 500;
     }
   }
 }
