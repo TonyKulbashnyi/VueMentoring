@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <Head :movie="isMoviePage" :movieItem="thisMovie" />
-    <ControlPanel :movie="isMoviePage" :movieItem="thisMovie" />
+    <Head :movie="isMoviePage" :movieItem="currentMovie" />
+    <ControlPanel :movie="isMoviePage" :movieItem="currentMovie" />
     <Results :movies="moviesByGenre" />
     <Footer />
   </div>
@@ -11,7 +11,7 @@ import Head from "@/components/Head.vue";
 import ControlPanel from "@/components/ControlPanel.vue";
 import Results from "@/components/Results.vue";
 import Footer from "@/components/Footer.vue";
-import moviesData from "@/assets/movies.json";
+import { mapState } from "vuex";
 
 export default {
   name: "Movie",
@@ -24,44 +24,25 @@ export default {
   data: function() {
     return {
       isMoviePage: true,
-      movies: moviesData,
-      thisMovie: null,
-      movieId: null,
-      moviesByGenre: [],
     };
   },
-  methods: {
-    getListByGenre() {
-      let self = this;
-      let currentGenre = this.thisMovie.genre[0];
-      this.movies.forEach(function(x) {
-        if (x.genre.includes(currentGenre)) {
-          self.moviesByGenre.push(x);
-        }
-      });
+  computed: {
+    ...mapState(["movies"]),
+
+    movieId() {
+      return this.$route.params.id;
     },
-    getMovieId() {
-      this.movieId = this.$route.params.id;
+
+    currentMovie() {
+      return this.$store.getters.currentMovie(this.movieId);
     },
-    getCurrentMovie() {
-      this.thisMovie = this.movies.find((x) => x.id === this.movieId);
+
+    currentGenre() {
+      return this.currentMovie.genre[0];
     },
-  },
-  computed: {},
-  created() {
-    this.getMovieId();
-    this.getCurrentMovie();
-    this.getListByGenre();
-  },
-  updated() {
-    this.getMovieId();
-    this.getCurrentMovie();
-    this.getListByGenre();
-  },
-  watch: {
-    $route: function() {
-      this.getMovieId();
-      // TODO: update Movie page when url changed
+
+    moviesByGenre() {
+      return this.$store.getters.moviesByGenre(this.currentGenre);
     },
   },
 };
