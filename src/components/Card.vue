@@ -6,7 +6,6 @@
         params: { id: movie.id },
       }"
     >
-      <!-- <a class="card__link" :href="movieUrl"> -->
       <img class="card__img" :src="getImg(movie.poster)" />
     </router-link>
     <div class="card__details">

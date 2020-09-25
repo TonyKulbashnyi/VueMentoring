@@ -2,11 +2,11 @@
   <div class="container">
     <Head @searchMovies="searchMovies" :home="isHomePage" />
     <ControlPanel
+      :count="moviesListCount"
       @sortMovies="sortMovies"
-      :count="moviesCount"
       :home="isHomePage"
     />
-    <Results :movies="movies" />
+    <Results :movies="moviesList" />
     <Footer />
   </div>
 </template>
@@ -29,6 +29,7 @@ export default {
   data: function() {
     return {
       isHomePage: true,
+      filteredMovies: [],
     };
   },
   methods: {
@@ -46,18 +47,9 @@ export default {
       }
     },
 
-    searchMovies(value, query) {
-      var self = this;
-      if (value === "") {
-        self.movies;
-      } else {
-        self.movies = this.filterItems(value, query);
-      }
-    },
-
     sortMovies(query) {
       query !== "rating" ? (query = "releaseDate") : "";
-      this.movies.sort(function(a, b) {
+      this.moviesList.sort(function(a, b) {
         if (a[query] < b[query]) {
           return 1;
         } else if (a[query] > b[query]) {
@@ -66,10 +58,37 @@ export default {
         return 0;
       });
     },
+
+    searchMovies() {
+      if (this.searchField === "") {
+        this.filteredMovies = [];
+      } else {
+        this.filteredMovies = this.filterItems(
+          this.searchField,
+          this.searchOption
+        );
+      }
+    },
   },
   computed: {
-    ...mapState(["movies"]),
+    ...mapState(["movies", "searchField", "searchOption", "sortOption"]),
     ...mapGetters(["moviesCount"]),
+
+    moviesList() {
+      if (this.filteredMovies.length) {
+        return this.filteredMovies;
+      } else {
+        return this.movies;
+      }
+    },
+
+    moviesListCount() {
+      if (this.filteredMovies.length) {
+        return this.filteredMovies.length;
+      } else {
+        return this.moviesCount;
+      }
+    },
   },
 };
 </script>

@@ -8,6 +8,9 @@ import moviesList from "@/assets/movies.json";
 export default new Vuex.Store({
   state: {
     movies: moviesList,
+    searchField: null,
+    searchOption: "title",
+    sortOption: "date",
   },
   getters: {
     moviesCount: (state) => {
@@ -29,7 +32,17 @@ export default new Vuex.Store({
       return arr;
     },
   },
-  mutations: {},
+  mutations: {
+    UPDATE_SEARCH_FIELD(state, value) {
+      state.searchField = value;
+    },
+    UPDATE_SEARCH_OPTION(state, value) {
+      state.searchOption = value;
+    },
+    UPDATE_SORT_OPTION(state, value) {
+      state.sortOption = value;
+    },
+  },
   actions: {},
   modules: {},
 });

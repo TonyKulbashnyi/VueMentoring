@@ -46,11 +46,7 @@ export default {
       ],
     };
   },
-  methods: {
-    // getMovie() {
-    //   console.log(this.movieItem);
-    // },
-  },
+  methods: {},
   computed: {
     countString() {
       let length = this.count;
@@ -65,14 +61,10 @@ export default {
     isMovie() {
       return this.movie;
     },
-    // get,
     getGenreList() {
       return this.genreListStart + this.movieItem.genre[0] + this.genreListEnd;
     },
   },
-  // created() {
-  //   this.getMovie();
-  // },
 };
 </script>
 
