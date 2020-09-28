@@ -6,7 +6,12 @@
         params: { id: movie.id },
       }"
     >
-      <img class="card__img" :src="getImg(movie.poster)" />
+      <img
+        class="card__img"
+        :src="urlPath"
+        v-isInViewPort="getImg(movie.poster)"
+        @intersects="addUrlPath($event)"
+      />
     </router-link>
     <div class="card__details">
       <div class="card__title">
@@ -29,12 +34,21 @@ export default {
   props: {
     movie: { type: Object, required: true },
   },
+  data() {
+    return {
+      urlPath: "",
+    };
+  },
   methods: {
     getImg(img) {
       return require("../assets/posters/" + img);
     },
     scrollToTop() {
       window.scrollTo(0, 0);
+    },
+    addUrlPath(event) {
+      console.log(event);
+      this.urlPath = event.detail;
     },
   },
   computed: {
