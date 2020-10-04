@@ -28,6 +28,7 @@ export default {
   },
   computed: {
     ...mapState(["movies"]),
+    // ...mapGetters(["movies"]),
 
     movieId() {
       return this.$route.params.id;
@@ -38,12 +39,15 @@ export default {
     },
 
     currentGenre() {
-      return this.currentMovie.genre[0];
+      return this.currentMovie.genres[0];
     },
 
     moviesByGenre() {
       return this.$store.getters.moviesByGenre(this.currentGenre);
     },
+  },
+  mounted() {
+    this.$store.dispatch("LOAD_USERS");
   },
 };
 </script>

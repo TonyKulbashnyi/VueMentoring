@@ -48,7 +48,7 @@ export default {
     },
 
     sortMovies(query) {
-      query !== "rating" ? (query = "releaseDate") : "";
+      query === "rating" ? (query = "vote_average") : (query = "release_date");
       this.moviesList.sort(function(a, b) {
         if (a[query] < b[query]) {
           return 1;
@@ -75,7 +75,7 @@ export default {
     ...mapGetters(["moviesCount"]),
 
     moviesList() {
-      if (this.filteredMovies.length) {
+      if (this.searchField) {
         return this.filteredMovies;
       } else {
         return this.movies;
@@ -89,6 +89,9 @@ export default {
         return this.moviesCount;
       }
     },
+  },
+  mounted() {
+    this.$store.dispatch("LOAD_USERS");
   },
 };
 </script>

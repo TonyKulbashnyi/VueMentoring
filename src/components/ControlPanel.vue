@@ -62,7 +62,7 @@ export default {
       return this.movie;
     },
     getGenreList() {
-      return this.genreListStart + this.movieItem.genre[0] + this.genreListEnd;
+      return this.genreListStart + this.movieItem.genres[0] + this.genreListEnd;
     },
   },
 };

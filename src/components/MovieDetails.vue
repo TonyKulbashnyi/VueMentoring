@@ -1,6 +1,6 @@
 <template>
   <article class="details">
-    <img class="details__img" :src="getImgUrl(movieItem.poster)" />
+    <img class="details__img" :src="movieItem.poster_path" />
     <div class="details__wrap">
       <div class="details__title">
         {{ movieItem.title }}
@@ -13,17 +13,17 @@
       </div>
       <div class="details__release-wrap">
         <span class="details__release">
-          {{ movieItem.releaseDate }} <span>year</span>
+          {{ movieItem.release_date | toYear() }} <span>year</span>
         </span>
         <span class="details__duration">
-          <template v-if="movieItem.duration > 60">
-            {{ movieItem.duration | toHours() }} <span>{{ hourStr }}</span>
+          <template v-if="movieItem.runtime > 60">
+            {{ movieItem.runtime | toHours() }} <span>{{ hourStr }}</span>
           </template>
-          {{ movieItem.duration | toMin() }} <span>min</span>
+          {{ movieItem.runtime | toMin() }} <span>min</span>
         </span>
       </div>
       <div class="details__desc">
-        {{ movieItem.description }}
+        {{ movieItem.overview }}
       </div>
     </div>
   </article>
@@ -32,6 +32,7 @@
 <script>
 import { toHours } from "@/filters/to-hours";
 import { toMin } from "@/filters/to-min";
+import { toYear } from "@/filters/to-year";
 
 export default {
   name: "MovieDetails",
@@ -45,23 +46,20 @@ export default {
   filters: {
     toHours,
     toMin,
+    toYear,
   },
   computed: {
     genreList() {
-      return this.movieItem.genre.join(" & ");
+      return this.movieItem.genres.join(" & ");
     },
     movieRating() {
-      return parseFloat(this.movieItem.rating).toFixed(1);
+      return parseFloat(this.movieItem.vote_average).toFixed(1);
     },
     hourStr() {
-      return toHours(this.movieItem.duration) > 1 ? "hours" : "hour";
+      return toHours(this.movieItem.runtime) > 1 ? "hours" : "hour";
     },
   },
-  methods: {
-    getImgUrl(pic) {
-      return require("../assets/posters/" + pic);
-    },
-  },
+  methods: {},
   created() {},
 };
 </script>

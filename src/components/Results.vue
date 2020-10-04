@@ -1,11 +1,7 @@
 <template>
   <section class="results">
     <div v-if="movies.length" class="wrapper results__wrapper">
-      <Card
-        v-for="movie in movies"
-        :key="$router.params + movie.id"
-        :movie="movie"
-      />
+      <Card v-for="movie in movies" :key="movie.id" :movie="movie" />
     </div>
     <template v-else>
       <div class="results__empty">

@@ -6,10 +6,16 @@
         params: { id: movie.id },
       }"
     >
-      <img
+      <!-- <img
         class="card__img"
         :src="urlPath"
         v-isInViewPort="getImg(movie.poster)"
+        @intersects="addUrlPath($event)"
+      /> -->
+      <img
+        class="card__img"
+        :src="urlPath"
+        v-isInViewPort="movie.poster_path"
         @intersects="addUrlPath($event)"
       />
     </router-link>
@@ -18,7 +24,7 @@
         {{ movie.title }}
       </div>
       <div class="card__year">
-        {{ movie.releaseDate }}
+        {{ movie.release_date | toYear() }}
       </div>
       <div class="card__genre">
         {{ genres }}
@@ -28,6 +34,8 @@
 </template>
 
 <script>
+import { toYear } from "@/filters/to-year";
+
 export default {
   name: "Card",
   components: {},
@@ -39,22 +47,21 @@ export default {
       urlPath: "",
     };
   },
+  filters: {
+    toYear,
+  },
   methods: {
-    getImg(img) {
-      return require("../assets/posters/" + img);
-    },
     scrollToTop() {
       window.scrollTo(0, 0);
     },
     addUrlPath(event) {
-      console.log(event);
       this.urlPath = event.detail;
     },
   },
   computed: {
     genres() {
       let movie = this.$props.movie;
-      return movie.genre.join(" & ");
+      return movie.genres.join(" & ");
     },
   },
 };
