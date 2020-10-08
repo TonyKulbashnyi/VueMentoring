@@ -28,7 +28,6 @@ export default {
   },
   computed: {
     ...mapState(["movies"]),
-    // ...mapGetters(["movies"]),
 
     movieId() {
       return this.$route.params.id;
