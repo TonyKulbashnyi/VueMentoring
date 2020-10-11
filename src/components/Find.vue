@@ -4,15 +4,11 @@
       {{ title }}
     </h2>
     <div class="find__search">
-      <SearchField @getValue="getValue" />
+      <SearchField v-model="value" />
       <SearchButton @click="search">Search</SearchButton>
     </div>
     <div class="find__switcher">
-      <Switcher
-        @getSearchOption="getSearchOption"
-        :title="switcherTitle"
-        :options="switcherOptions"
-      />
+      <Switcher :title="switcherTitle" :options="switcherOptions" />
     </div>
   </div>
 </template>
@@ -48,15 +44,7 @@ export default {
   },
   methods: {
     search() {
-      this.$emit("searchMovies", this.value, this.choosedOption);
-    },
-    getValue(param) {
-      this.value = param;
-    },
-    getSearchOption(param) {
-      param === ""
-        ? (this.choosedOption = "title")
-        : (this.choosedOption = param);
+      this.$emit("searchMovies");
     },
   },
   computed: {},

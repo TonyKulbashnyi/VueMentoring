@@ -16,8 +16,11 @@
           {{ movieItem.releaseDate }} <span>year</span>
         </span>
         <span class="details__duration">
-          {{ movieItem.duration }} <span>min</span></span
-        >
+          <template v-if="movieItem.duration > 60">
+            {{ movieItem.duration | toHours() }} <span>{{ hourStr }}</span>
+          </template>
+          {{ movieItem.duration | toMin() }} <span>min</span>
+        </span>
       </div>
       <div class="details__desc">
         {{ movieItem.description }}
@@ -27,6 +30,9 @@
 </template>
 
 <script>
+import { toHours } from "@/filters/to-hours";
+import { toMin } from "@/filters/to-min";
+
 export default {
   name: "MovieDetails",
   components: {},
@@ -36,13 +42,19 @@ export default {
   data: function() {
     return {};
   },
-
+  filters: {
+    toHours,
+    toMin,
+  },
   computed: {
     genreList() {
       return this.movieItem.genre.join(" & ");
     },
     movieRating() {
       return parseFloat(this.movieItem.rating).toFixed(1);
+    },
+    hourStr() {
+      return toHours(this.movieItem.duration) > 1 ? "hours" : "hour";
     },
   },
   methods: {
@@ -99,7 +111,9 @@ export default {
   }
 
   &__release span,
-  &__duration span {
+  &__duration span,
+  &__duration_min,
+  .min {
     font-size: 14px;
     color: #999;
   }

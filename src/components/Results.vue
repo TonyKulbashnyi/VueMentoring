@@ -29,13 +29,12 @@ export default {
       i: 0,
     };
   },
-  methods: {},
-  computed: {},
 };
 </script>
 <style scoped lang="scss">
 .results {
   background: #232323;
+  overflow: hidden;
 
   &__wrapper {
     display: grid;

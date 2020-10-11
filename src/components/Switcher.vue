@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "Switcher",
   props: {
@@ -31,9 +33,7 @@ export default {
     };
   },
   methods: {
-    getChoosenFilterOption() {
-      this.$emit("getSearchOption", this.choosedFilterOption);
-    },
+    ...mapMutations(["UPDATE_SEARCH_OPTION", "UPDATE_SORT_OPTION"]),
 
     getChoosenSortingOption() {
       this.$emit("sortMovies", this.choosedSortingOption);
@@ -47,15 +47,15 @@ export default {
       let title = this.options[index].title;
       if (title === "title" || title === "genre") {
         this.choosedFilterOption = this.options[index].title;
-        this.getChoosenFilterOption();
+        this.UPDATE_SEARCH_OPTION(this.choosedFilterOption);
       } else {
         this.choosedSortingOption = this.options[index].title;
-        this.getChoosenSortingOption();
+        this.UPDATE_SORT_OPTION(this.choosedSortingOption);
+        this.getChoosenSortingOption(this.choosedSortingOption);
       }
     },
   },
   created() {
-    this.getChoosenFilterOption();
     this.getChoosenSortingOption();
   },
 };
