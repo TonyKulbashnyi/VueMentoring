@@ -1,8 +1,14 @@
 <template>
-  <input @change="getText" class="search__field" v-model="inputValue" />
+  <input
+    @input="updateSearchField"
+    class="search__field"
+    v-model="inputValue"
+  />
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "SearchField",
   data() {
@@ -11,8 +17,10 @@ export default {
     };
   },
   methods: {
-    getText() {
-      this.$emit("getValue", this.inputValue);
+    ...mapMutations(["UPDATE_SEARCH_FIELD"]),
+
+    updateSearchField() {
+      this.UPDATE_SEARCH_FIELD(this.inputValue);
     },
   },
 };
