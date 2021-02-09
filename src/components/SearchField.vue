@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
-
 export default {
   name: "SearchField",
   data() {
@@ -17,10 +15,8 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["UPDATE_SEARCH_FIELD"]),
-
     updateSearchField() {
-      this.UPDATE_SEARCH_FIELD(this.inputValue);
+      this.$emit("updateSearch", this.inputValue);
     },
   },
 };

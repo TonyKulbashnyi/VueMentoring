@@ -45,7 +45,7 @@ export default {
       });
       this.options[index].checked = true;
       let title = this.options[index].title;
-      if (title === "title" || title === "genre") {
+      if (title === "title" || title === "genres") {
         this.choosedFilterOption = this.options[index].title;
         this.UPDATE_SEARCH_OPTION(this.choosedFilterOption);
       } else {

@@ -4,7 +4,7 @@
       {{ title }}
     </h2>
     <div class="find__search">
-      <SearchField v-model="value" />
+      <SearchField @updateSearch="updateSearch" />
       <SearchButton @click="search">Search</SearchButton>
     </div>
     <div class="find__switcher">
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 import SearchField from "@/components/SearchField.vue";
 import SearchButton from "@/components/SearchButton.vue";
 import Switcher from "@/components/Switcher.vue";
@@ -28,6 +29,7 @@ export default {
       placeholder: "",
       switcherTitle: "search by",
       choosedOption: "",
+      inputValue: "",
       switcherOptions: [
         {
           id: 0,
@@ -36,14 +38,21 @@ export default {
         },
         {
           id: 1,
-          title: "genre",
+          title: "genres",
           checked: false,
         },
       ],
     };
   },
   methods: {
+    ...mapMutations(["UPDATE_SEARCH_FIELD"]),
+
+    updateSearch(value) {
+      this.inputValue = value;
+    },
+
     search() {
+      this.UPDATE_SEARCH_FIELD(this.inputValue);
       this.$emit("searchMovies");
     },
   },

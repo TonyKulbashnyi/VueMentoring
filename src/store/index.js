@@ -1,13 +1,14 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import ApiService from "@/core/api";
 
 Vue.use(Vuex);
 
-import moviesList from "@/assets/movies.json";
+// import moviesList from "@/assets/movies.json";
 
 export default new Vuex.Store({
   state: {
-    movies: moviesList,
+    movies: [],
     searchField: null,
     searchOption: "title",
     sortOption: "date",
@@ -17,6 +18,10 @@ export default new Vuex.Store({
       return state.movies.length;
     },
 
+    movies: (state) => {
+      return state.movies;
+    },
+
     currentMovie: (state) => (id) => {
       return state.movies.find((movie) => movie.id === id);
     },
@@ -24,7 +29,7 @@ export default new Vuex.Store({
     moviesByGenre: (state) => (currentGenre) => {
       let arr = [];
       state.movies.forEach(function(x) {
-        if (x.genre.includes(currentGenre)) {
+        if (x.genres.includes(currentGenre)) {
           arr.push(x);
         }
       });
@@ -42,7 +47,15 @@ export default new Vuex.Store({
     UPDATE_SORT_OPTION(state, value) {
       state.sortOption = value;
     },
+    POPULATE_MOVIES(state, value) {
+      state.movies = value;
+    },
   },
-  actions: {},
-  modules: {},
+  actions: {
+    LOAD_USERS({ commit }) {
+      return ApiService.getMovies().then((movies) =>
+        commit("POPULATE_MOVIES", movies.data)
+      );
+    },
+  },
 });
